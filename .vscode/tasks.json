@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile and Run Plants vs Zombies",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-c",
+                "cd '${workspaceFolder}' && javac -cp src -d build/classes $(Get-ChildItem -Path src -Filter '*.java' -Recurse | ForEach-Object { $_.FullName }) ; if ($?) { java -cp build/classes view.GameWindow }"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$javac"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Compile Java Project",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-c",
+                "cd '${workspaceFolder}' && if (!(Test-Path build/classes)) { mkdir build/classes } && javac -cp src -d build/classes $(Get-ChildItem -Path src -Filter '*.java' -Recurse | ForEach-Object { $_.FullName })"
+            ],
+            "group": "build",
+            "problemMatcher": ["$javac"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run Plants vs Zombies",
+            "type": "shell",
+            "command": "java",
+            "args": ["-cp", "${workspaceFolder}/build/classes", "view.GameWindow"],
+            "group": "test",
+            "dependsOn": ["Compile Java Project"],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}
