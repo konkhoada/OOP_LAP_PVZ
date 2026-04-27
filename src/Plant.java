@@ -2,6 +2,8 @@
  * Created by Armin on 6/25/2016.
  */
 import java.awt.Image;
+import java.awt.MediaTracker;
+import javax.swing.ImageIcon;
 
 public abstract class Plant {
 
@@ -12,20 +14,37 @@ public abstract class Plant {
 
     private GamePanel gp;
 
-    private Image img;
+    private ImageIcon imgIcon; // Changed from Image to ImageIcon for GIF animation support
 
     public Plant(GamePanel parent, int x, int y) {
         this.x = x;
         this.y = y;
         gp = parent;
     }
-    public void setImg(Image img) {
-        this.img = img;
+    
+    // Changed to accept ImageIcon instead of Image
+    public void setImg(ImageIcon imgIcon) {
+        this.imgIcon = imgIcon;
+        // Ensure GIF animation starts
+        if (imgIcon != null && imgIcon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+            // Force animation to start for GIFs
+            imgIcon.setImageObserver(null);
+        }
     }
 
-    // Thêm phương thức để lấy ảnh khi vẽ
+    // Overloaded method for backward compatibility
+    public void setImg(Image img) {
+        this.imgIcon = new ImageIcon(img);
+    }
+
+    // Return ImageIcon for GIF animation support
+    public ImageIcon getImgIcon() {
+        return imgIcon;
+    }
+    
+    // Return Image for backward compatibility
     public Image getImg() {
-        return img;
+        return imgIcon != null ? imgIcon.getImage() : null;
     }
     
     public void stop() {

@@ -13,7 +13,7 @@ public class ElectroPeashooter extends Plant {
     System.out.println("Kết quả nạp ảnh cây: " + imgUrl);
 
     if (imgUrl != null) {
-        this.setImg(new ImageIcon(imgUrl).getImage());
+        this.setImg(new ImageIcon(imgUrl));
     } else {
         // Nếu hiện dòng này trong terminal nghĩa là sai đường dẫn/tên file
         System.out.println("LỖI: Không tìm thấy file electropeashooter.gif!");

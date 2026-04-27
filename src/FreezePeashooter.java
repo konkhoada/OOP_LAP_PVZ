@@ -11,7 +11,7 @@ public class FreezePeashooter extends Plant {
 
     public FreezePeashooter(GamePanel parent, int x, int y) {
         super(parent, x, y);
-        this.setImg(new ImageIcon(this.getClass().getResource("images/plants/freezepeashooter.gif")).getImage());
+        this.setImg(new ImageIcon(this.getClass().getResource("images/plants/freezepeashooter.gif")));
         shootTimer = new Timer(2000, (ActionEvent e) -> {
             //System.out.println("SHOOT");
             if (getGp().getLaneZombies().get(y).size() > 0) {

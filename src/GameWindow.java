@@ -27,36 +27,36 @@ public class GameWindow extends JFrame {
 
         GamePanel gp = new GamePanel(sun);
         gp.setLocation(0, 0);
-        getLayeredPane().add(gp, new Integer(0));
+        getLayeredPane().add(gp, Integer.valueOf(0));
 
         PlantCard sunflower = new PlantCard(new ImageIcon(this.getClass().getResource("images/cards/card_sunflower.png")).getImage());
         sunflower.setLocation(110, 8);
         sunflower.setAction((ActionEvent e) -> {
             gp.setActivePlantingBrush(PlantType.Sunflower);
         });
-        getLayeredPane().add(sunflower, new Integer(3));
+        getLayeredPane().add(sunflower, Integer.valueOf(3));
 
         PlantCard peashooter = new PlantCard(new ImageIcon(this.getClass().getResource("images/cards/card_peashooter.png")).getImage());
         peashooter.setLocation(175, 8);
         peashooter.setAction((ActionEvent e) -> {
             gp.setActivePlantingBrush(PlantType.Peashooter);
         });
-        getLayeredPane().add(peashooter, new Integer(3));
+        getLayeredPane().add(peashooter, Integer.valueOf(3));
 
         PlantCard freezepeashooter = new PlantCard(new ImageIcon(this.getClass().getResource("images/cards/card_freezepeashooter.png")).getImage());
         freezepeashooter.setLocation(240, 8);
         freezepeashooter.setAction((ActionEvent e) -> {
             gp.setActivePlantingBrush(PlantType.FreezePeashooter);
         });
-        getLayeredPane().add(freezepeashooter, new Integer(3));
+        getLayeredPane().add(freezepeashooter, Integer.valueOf(3));
 
         PlantCard electroCard = new PlantCard(new ImageIcon(this.getClass().getResource("images/cards/card_electropeashooter.png")).getImage());
         electroCard.setLocation(305, 8); 
         electroCard.setAction((ActionEvent e) -> {
             gp.setActivePlantingBrush(PlantType.ElectroPeashooter);
         });
-        getLayeredPane().add(electroCard, new Integer(3));  
-        getLayeredPane().add(sun, new Integer(2));
+        getLayeredPane().add(electroCard, Integer.valueOf(3));  
+        getLayeredPane().add(sun, Integer.valueOf(2));
         setResizable(false);
         setVisible(true);
     }
@@ -66,7 +66,7 @@ public class GameWindow extends JFrame {
         menu.setLocation(0, 0);
         setSize(1012, 785);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getLayeredPane().add(menu, new Integer(0));
+        getLayeredPane().add(menu, Integer.valueOf(0));
         menu.repaint();
         setResizable(false);
         setVisible(true);

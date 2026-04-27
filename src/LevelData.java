@@ -26,8 +26,9 @@ public class LevelData {
                 bwr.close();
                 LEVEL_NUMBER = "1";
             } else {
-                BufferedReader br = new BufferedReader(new FileReader(f));
-                LEVEL_NUMBER = br.readLine();
+                try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                    LEVEL_NUMBER = br.readLine();
+                }
             }
         } catch (Exception ex) {
 

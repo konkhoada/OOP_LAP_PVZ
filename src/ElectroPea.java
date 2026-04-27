@@ -7,12 +7,16 @@ public class ElectroPea extends Pea {
     public ElectroPea(GamePanel parent, int lane, int startX) {
         super(parent, lane, startX);
         
-        // 1. Nạp ảnh an toàn với kiểm tra đường dẫn
-        URL res = this.getClass().getResource("images/electropea.png");
-        if (res != null) {
-            this.setImg(new ImageIcon(res).getImage());
-        } else {
-            System.out.println("LỖI: Không tìm thấy ảnh đạn tại images/electropea.png");
+        // Load electro pea image
+        try {
+            this.setImg(new ImageIcon(this.getClass().getResource("images/electropea.png")).getImage());
+        } catch (Exception e) {
+            System.out.println("ERROR: Could not load electro pea image, using fallback");
+            try {
+                this.setImg(new ImageIcon(this.getClass().getResource("images/pea.png")).getImage());
+            } catch (Exception e2) {
+                System.out.println("ERROR: Could not load fallback pea image either");
+            }
         }
     }
 
@@ -28,8 +32,8 @@ public class ElectroPea extends Pea {
         for (int i = laneZombies.size() - 1; i >= 0; i--) {
             Zombie z = laneZombies.get(i);
             
-            // FIX: Giảm chiều rộng vùng va chạm từ 400 xuống 60 để đạn bay đúng thực tế
-            Rectangle zRect = new Rectangle(z.getPosX(), 109 + getMyLane() * 120, 60, 120);
+            // Use consistent zombie hitbox size (80px width like other peas)
+            Rectangle zRect = new Rectangle(z.getPosX(), 109 + getMyLane() * 120, 80, 120);
 
             if (pRect.intersects(zRect)) {
                 // Gây sát thương

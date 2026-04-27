@@ -1,0 +1,180 @@
+@startuml UML Class Diagram for OOP_LAP_PVZ
+class Zombie {
+    - int health = 1000
+    - int speed = 1
+    - GamePanel gp
+    - int posX = 1000
+    - int myLane
+    - boolean isMoving = true
+    + Zombie(GamePanel, int)
+    + advance()
+    + slow()
+    + getZombie(String, GamePanel, int): Zombie
+    + getters/setters
+}
+
+abstract class Plant {
+    - int health = 200
+    - int x, y
+    - GamePanel gp
+    - Image img
+    + Plant(GamePanel, int, int)
+    + setImg(Image)
+    + getImg(): Image
+    + stop()
+    + getters/setters
+}
+
+class Pea {
+    - int posX
+    - GamePanel gp
+    - int myLane
+    - Image img
+    + Pea(GamePanel, int, int)
+    + advance()
+    + getters/setters
+}
+
+class GamePanel {
+    - Image[] images
+    - Collider[] colliders
+    - ArrayList<ArrayList<Zombie>> laneZombies
+    - ArrayList<ArrayList<Pea>> lanePeas
+    - ArrayList<Sun> activeSuns
+    - Timer[] timers
+    - JLabel sunScoreboard
+    - PlantType activePlantingBrush
+    - int mouseX, mouseY, sunScore
+    + GamePanel(JLabel)
+    + advance()
+    + paintComponent(Graphics)
+    + mouse events
+    + getters/setters
+}
+
+class Collider {
+    - ActionListener al
+    + Plant assignedPlant
+    + Collider()
+    + setPlant(Plant)
+    + removePlant()
+    + isInsideCollider(int): boolean
+    + mouse events
+}
+
+class Sun {
+    - GamePanel gp
+    - Image sunImage
+    - int myX, myY, endY, destruct
+    + Sun(GamePanel, int, int, int)
+    + paintComponent(Graphics)
+    + advance()
+    + mouse events
+}
+
+class Sunflower {
+    - Timer sunProduceTimer
+    + Sunflower(GamePanel, int, int)
+}
+
+class Peashooter {
+    + Timer shootTimer
+    + Peashooter(GamePanel, int, int)
+    + stop()
+}
+
+class FreezePeashooter {
+    - Timer shootTimer
+    + FreezePeashooter(GamePanel, int, int)
+    + stop()
+}
+
+class ElectroPeashooter {
+    - Timer shootTimer
+    + ElectroPeashooter(GamePanel, int, int)
+    + stop()
+}
+
+class FreezePea {
+    + FreezePea(GamePanel, int, int)
+    + advance()
+}
+
+class ElectroPea {
+    + ElectroPea(GamePanel, int, int)
+    + advance()
+}
+
+class NormalZombie {
+    + NormalZombie(GamePanel, int)
+}
+
+class ConeHeadZombie {
+    + ConeHeadZombie(GamePanel, int)
+}
+
+class GameWindow {
+    + PlantType enum
+    + GameWindow()
+    + begin()
+    + main(String[])
+}
+
+class PlantCard {
+    - Image img
+    - ActionListener al
+    + PlantCard(Image)
+    + setAction(ActionListener)
+    + paintComponent(Graphics)
+    + mouse events
+}
+
+class Menu {
+    - Image bgImage
+    + Menu()
+    + paintComponent(Graphics)
+    + initComponents()
+    + mouse events
+}
+
+class LevelData {
+    + String LEVEL_NUMBER
+    + String[][] LEVEL_CONTENT
+    + int[][][] LEVEL_VALUE
+    + LevelData()
+    + write(String)
+}
+
+' Inheritance
+Zombie <|-- NormalZombie
+Zombie <|-- ConeHeadZombie
+Plant <|-- Sunflower
+Plant <|-- Peashooter
+Plant <|-- FreezePeashooter
+Plant <|-- ElectroPeashooter
+Pea <|-- FreezePea
+Pea <|-- ElectroPea
+
+' Composition/Aggregation
+GamePanel *-- Collider : contains
+GamePanel *-- "laneZombies: ArrayList of Zombies"
+GamePanel *-- "lanePeas: ArrayList of Peas"
+GamePanel *-- "activeSuns: ArrayList of Suns"
+Collider o-- Plant : assignedPlant
+Sunflower ..> Sun : produces
+Peashooter ..> Pea : produces
+FreezePeashooter ..> FreezePea : produces
+ElectroPeashooter ..> ElectroPea : produces
+
+' Associations
+GamePanel --> Zombie : manages
+GamePanel --> Pea : manages
+GamePanel --> Sun : manages
+Pea --> Zombie : collides with
+Zombie --> Plant : attacks
+GameWindow *-- GamePanel : contains
+GameWindow *-- PlantCard : contains
+GameWindow --> Menu : transitions from
+GamePanel --> LevelData : uses
+
+@enduml

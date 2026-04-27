@@ -13,14 +13,6 @@ import javax.swing.*;
 public class GamePanel extends JLayeredPane implements MouseMotionListener {
 
     private Image bgImage;
-    private Image peashooterImage;
-    private Image freezePeashooterImage;
-    private Image sunflowerImage;
-    private Image peaImage;
-    private Image freezePeaImage;
-    private Image electroPeaImage;
-    private Image electroPeashooterImage;
-
     private Image normalZombieImage;
     private Image coneHeadZombieImage;
     private Collider[] colliders;
@@ -37,8 +29,8 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
 
     private GameWindow.PlantType activePlantingBrush = GameWindow.PlantType.None;
 
+    @SuppressWarnings("unused")
     private int mouseX, mouseY;
-
     private int sunScore;
 
     public int getSunScore() {
@@ -58,14 +50,6 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         setSunScore(150);  //pool avalie
 
         bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
-
-        peashooterImage = new ImageIcon(this.getClass().getResource("images/plants/peashooter.gif")).getImage();
-        freezePeashooterImage = new ImageIcon(this.getClass().getResource("images/plants/freezepeashooter.gif")).getImage();
-        sunflowerImage = new ImageIcon(this.getClass().getResource("images/plants/sunflower.gif")).getImage();
-        peaImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
-        freezePeaImage = new ImageIcon(this.getClass().getResource("images/freezepea.png")).getImage();
-        electroPeaImage = new ImageIcon(this.getClass().getResource("images/electropea.png")).getImage();
-        electroPeashooterImage = new ImageIcon(this.getClass().getResource("images/plants/electropeashooter.gif")).getImage();
 
         normalZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie1.png")).getImage();
         coneHeadZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie2.png")).getImage();
@@ -90,7 +74,7 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
             a.setLocation(44 + (i % 9) * 100, 109 + (i / 9) * 120);
             a.setAction(new PlantActionListener((i % 9), (i / 9)));
             colliders[i] = a;
-            add(a, new Integer(0));
+            add(a, Integer.valueOf(0));
         }
 
         //colliders[0].setPlant(new FreezePeashooter(this,0,0));
@@ -112,15 +96,14 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
             Random rnd = new Random();
             Sun sta = new Sun(this, rnd.nextInt(800) + 100, 0, rnd.nextInt(300) + 200);
             activeSuns.add(sta);
-            add(sta, new Integer(1));
+            add(sta, Integer.valueOf(1));
         });
         sunProducer.start();
 
         zombieProducer = new Timer(7000, (ActionEvent e) -> {
             Random rnd = new Random();
-            LevelData lvl = new LevelData();
-            String[] Level = lvl.LEVEL_CONTENT[Integer.parseInt(lvl.LEVEL_NUMBER) - 1];
-            int[][] LevelValue = lvl.LEVEL_VALUE[Integer.parseInt(lvl.LEVEL_NUMBER) - 1];
+            String[] Level = LevelData.LEVEL_CONTENT[Integer.parseInt(LevelData.LEVEL_NUMBER) - 1];
+            int[][] LevelValue = LevelData.LEVEL_VALUE[Integer.parseInt(LevelData.LEVEL_NUMBER) - 1];
             int l = rnd.nextInt(5);
             int t = rnd.nextInt(100);
             Zombie z = null;
@@ -165,8 +148,13 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         Collider c = colliders[i];
         if (c.assignedPlant != null) {
             Plant p = c.assignedPlant;
-            // Dòng code mới có thêm kích thước 80x80
-            g.drawImage(p.getImg(), 60 + (i % 9) * 100, 129 + (i / 9) * 120, 80, 80, null);
+            // Use ImageIcon for GIF animation support
+            if (p.getImgIcon() != null) {
+                p.getImgIcon().paintIcon(this, g, 60 + (i % 9) * 100, 129 + (i / 9) * 120);
+            } else {
+                // Fallback to regular image drawing if no ImageIcon
+                g.drawImage(p.getImg(), 60 + (i % 9) * 100, 129 + (i / 9) * 120, 80, 80, null);
+            }
             }
         }
 
