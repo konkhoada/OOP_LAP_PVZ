@@ -2,7 +2,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 /**
- * Created by Armin on 6/28/2016.
+ * Created by Quang on 4/27/2026.
  */
 public class Sunflower extends Plant {
 
